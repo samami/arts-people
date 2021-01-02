@@ -1,0 +1,179 @@
+<div id="subscription-rollover-map" class="col-md-10 form-horizontal">
+    <h2>Subscription Mapping</h2>
+    <p>This is where you'll let us know how to build your upcoming season's subscriptions. Use the drop down menus below to tell us how we'll transfer subscriptions from a previous season into the new season.</p>
+    <form name="mappingForm">
+        <div id="map-header" class="row">
+            <div class="col-xs-6">
+                Prior Season &#8594;
+            </div>
+            <div class="col-xs-6">
+                New Season
+            </div>
+        </div>
+        <div id="map-seasons" class="row map-section">
+            <div class="col-xs-6">
+                <h4>Season</h4>
+                <div>
+                    <select
+                        ng-model="$ctrl.priorSeason"
+                        ng-options="season as season.name for season in $ctrl.rollover.seasons"
+                        class="form-control"
+                        id="priorSeason"
+                        ng-change="$ctrl.changeSeason($ctrl.priorSeason)"
+                        required
+                    >
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <h4>Season</h4>
+                <div>
+                    <select
+                        ng-model="$ctrl.newSeason"
+                        ng-options="season as season.name for season in $ctrl.rollover.seasons"
+                        class="form-control"
+                        id="newSeason"
+                        ng-change="$ctrl.changeSeason($ctrl.priorSeason)"
+                        required
+                    >
+                    </select>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div id="map-children" ng-show="$ctrl.newSeason != null && $ctrl.priorSeason != null">
+            <div id="map-packages" class="map-section">
+                <div class="row">
+                    <h4 class="col-xs-6">Packages</h4>
+                    <h4 class="col-xs-6">Packages</h4>
+                </div>
+                <div ng-repeat="priorPackage in $ctrl.priorSeason.packages | orderBy:'name' | filter: '!-Don\'t roll over-' : true" class="form-group row">
+                    <label class="col-xs-6 control-label" for="package-{{priorPackage.id}}">
+                        {{priorPackage.name}}
+                    </label>
+                    <div class="col-xs-6">
+                        <select
+                            ng-model="$ctrl.packages[priorPackage.id]"
+                            ng-options="package.id as package.name for package in $ctrl.newSeason.packages | orderBy:'name'"
+                            class="form-control"
+                            id="package-{{priorPackage.id}}"
+                            required
+                        >
+                            <option value="">-Please Select-</option>
+                        </select>
+                        <div ng-if="$ctrl.duplicateValueFound($ctrl.packages, $ctrl.packages[priorPackage.id])">*This package has been used multiple times</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="map-series" class="map-section">
+                <div class="row">
+                    <h4 class="col-xs-6">Series</h4>
+                    <h4 class="col-xs-6">Series</h4>
+                </div>
+                <div ng-repeat="priorSeries in $ctrl.priorSeason.series | orderBy:'name' | filter: '!-Don\'t roll over-' : true" class="form-group row">
+                    <label class="col-xs-6 control-label" for="series-{{priorSeries.id}}">
+                        {{priorSeries.name}}
+                    </label>
+                    <div class="col-xs-6">
+                        <select
+                            ng-model="$ctrl.series[priorSeries.id]"
+                            ng-options="series.id as series.name for series in $ctrl.newSeason.series | orderBy:'name'"
+                            class="form-control"
+                            id="series-{{priorSeries.id}}"
+                            required
+                        >
+                            <option value="">-Please Select-</option>
+                        </select>
+                        <div ng-if="$ctrl.duplicateValueFound($ctrl.series, $ctrl.series[priorSeries.id])">*This series has been used multiple times</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="map-venues" class="map-section">
+                <div class="row">
+                    <h4 class="col-xs-6">Venue</h4>
+                    <h4 class="col-xs-6">Venue</h4>
+                </div>
+                <div ng-repeat="priorVenue in $ctrl.priorSeason.venues | orderBy:'name' | filter: '!-Don\'t roll over-' : true" class="form-group row">
+                    <label class="col-xs-6 control-label" for="venues-{{priorVenue.id}}">
+                        {{priorVenue.name}}
+                    </label>
+                    <div class="col-xs-6">
+                        <select
+                                ng-model="$ctrl.venues[priorVenue.id]"
+                                ng-options="venue.id as venue.name for venue in $ctrl.newSeason.venues | orderBy:'name'"
+                                class="form-control"
+                                id="venues-{{priorVenue.id}}"
+                                required
+                                multiple
+                        >
+                            <option value="">-Please Select-</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="map-person-types" class="map-section">
+                <div class="row">
+                    <h4 class="col-xs-6">Person Types</h4>
+                    <h4 class="col-xs-6">Person Types</h4>
+                </div>
+                <div ng-repeat="priorPersonTypes in $ctrl.rollover.personTypes | orderBy:'name' | filter: '!-Don\'t roll over-' : true" " class="form-group row">
+                    <label class="col-xs-6 control-label" for="personTypes-{{priorPersonTypes.id}}">
+                        {{priorPersonTypes.name}}
+                    </label>
+                    <div class="col-xs-6">
+                        <select
+                            ng-model="$ctrl.personTypes[priorPersonTypes.id]"
+                            ng-options="personTypes.id as personTypes.name for personTypes in $ctrl.rollover.personTypes | orderBy:'name'"
+                            class="form-control"
+                            id="personTypes-{{priorPersonTypes.id}}"
+                            required
+                        >
+                            <option value="">-Please Select-</option>
+                        </select>
+                        <div ng-if="$ctrl.duplicateValueFound($ctrl.personTypes, $ctrl.personTypes[priorPersonTypes.id])">*This person type has been used multiple times</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="map-gaSections" class="map-section" ng-if="$ctrl.priorSeason.gaSections.length">
+                <div class="row">
+                    <h4 class="col-xs-6">GA Sections</h4>
+                    <h4 class="col-xs-6">GA Sections</h4>
+                </div>
+                <div ng-repeat="priorGaSection in $ctrl.priorSeason.gaSections | orderBy:'name' | filter: '!-Don\'t roll over-' : true" class="form-group row">
+                    <label class="col-xs-6 control-label" for="gaSection-{{priorGaSection.id}}">
+                        {{priorGaSection.name}}
+                        <span ng-if="priorGaSection.id">({{priorGaSection.id}})</span>
+                    </label>
+                    <div class="col-xs-6">
+                        <select
+                            ng-model="$ctrl.gaSections[priorGaSection.id]"
+                            ng-options="gaSection.id as (gaSection.name + (gaSection.id ? ' (' + gaSection.id + ')' : '')) for gaSection in $ctrl.newSeason.gaSections | orderBy:'name'"
+                            class="form-control"
+                            id="gaSection-{{priorGaSection.id}}"
+                        >
+                            <option value="">-Please Select-</option>
+                        </select>
+                        <div ng-if="$ctrl.duplicateValueFound($ctrl.newSeason.gaSections, $ctrl.newSeason.gaSections[priorGaSection.id])">*This GA section has been used multiple times</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="save-mapping" class="row">
+            <div class="col-xs-12">
+                <button
+                    type="button"
+                    class="btn btn-primary pull-right"
+                    ng-click="$ctrl.saveMapping()"
+                    ng-disabled="mappingForm.$invalid || $ctrl.processing"
+                >
+                    Next
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,231 @@
+<div class="ap-left-drawer drawer-content container rollover-modal">
+    <div class="row edit-header">
+        <div class="col-xs-9 patron-name">{{edit.detailId.name}}</div>
+        <div class="col-xs-3">
+            <button
+                type="button" 
+                class="btn btn-primary btn-sm pull-right" 
+                ng-click="edit.updateDetail(edit.detailId)"
+                ng-disabled="editDetailForm.$invalid || !editDetailForm.$dirty"
+                ng-if="edit.editMode">
+                Save
+            </button>
+            <a
+                ng-click="edit.editMode = true"
+                ng-if="!edit.editMode"
+            >
+                <i class="apicon apicon-edit"></i>
+            </a>
+        </div>
+    </div>
+        <div class="subtitle">Subscription Information</div>
+        <div class="conflict-bar" ng-if="edit.detailId.conflicts.length > 0" ng-repeat="conflict in edit.detailId.conflicts">
+            <div class="conflict-bar-text">
+                <div ng-if="conflict.conflictType == 'SeatSeriesMatch'">
+                    {{edit.findDetail(conflict.detailsId, edit.rolloverDetails).name}} is also sitting here.<br>
+                    <strong>Please change the seat or the series.</strong>
+                </div>
+                <div ng-if="conflict.conflictType == 'SoldSeatMatch'">
+                    This seat has already been sold in order {{conflict.orderId}}.<br>
+                    <strong>Please change the seat or the series.</strong>
+                </div>
+                <div ng-if="conflict.conflictType == 'missingPackage'">
+                    This seat does not have an associated package.<br>
+                    <strong>Please choose a package.</strong>
+                </div>
+                <div ng-if="conflict.conflictType == 'missingPersonType'">
+                    This seat does not have an associated person type.<br>
+                    <strong>Please choose a person type.</strong>
+                </div>
+                <div ng-if="conflict.conflictType == 'missingSeries'">
+                    This seat does not have an associated series.<br>
+                    <strong>Please choose a series.</strong>
+                </div>
+                <div ng-if="conflict.conflictType == 'NoSeatInVenue'">
+                    This seat doesn't exist in venue.<br>
+                    <strong>Please change the seat.</strong>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-header">
+            <span class="section-header underline">New Season</span>
+        </div>
+
+        <form class="form-horizontal edit-detail-form" name="editDetailForm" ng-show="edit.editMode">
+            <div class="form-group" ng-class="{'has-error': (edit.detailId.conflicts.length > 0)}" ng-if="1 != edit.detailId.all_ga">
+                <label class="col-xs-3 control-label" for="seat">
+                    Seat
+                </label>
+                <div class="col-xs-9">
+                    <input
+                        ng-model="edit.detailId.new_seat_no"
+                        ng-change="edit.detailId.new_seat_no = (edit.detailId.new_seat_no | uppercase); edit.onChange()"
+                        class="form-control"
+                        id="seat"
+                        required
+                    />
+                    <span class="help-block" ng-if="edit.detailId.conflicts.length > 0">
+                        This seat is taken
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="1 == edit.detailId.all_ga">
+                <label class="col-xs-3 control-label">
+                    Seat
+                </label>
+                <div class="col-xs-9">
+                    <input
+                        class="form-control"
+                        disabled
+                        placeholder="GA"
+                    />
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="1 == edit.detailId.any_ga && 't' == edit.getSelectedPackage().has_ga">
+                <label class="col-xs-3 control-label" for="seat">
+                    GA Section
+                </label>
+                <div class="col-xs-9">
+                    <select
+                        ng-model="edit.detailId.new_ga_section_pricing_name"
+                        ng-options="gaSection.id as (gaSection.name + (gaSection.id ? ' (' + gaSection.id + ')' : '')) for gaSection in edit.season.gaSections | orderBy:'name'"
+                        ng-change="edit.onChange()"
+                        class="form-control"
+                        id="ga_section"
+                    >
+                        <option value="">-Please Select-</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label" for="package">
+                    Package
+                </label>
+                <div class="col-xs-9">
+                    <select
+                        ng-model="edit.detailId.new_package_id"
+                        ng-options="package.id as package.name for package in edit.season.packages | orderBy:'name'"
+                        ng-change="edit.onChange()"
+                        class="form-control"
+                        id="package"
+                        required
+                    >
+                        <option value="">-Please Select-</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label" for="series">
+                    Series
+                </label>
+                <div class="col-xs-9">
+                    <select
+                        ng-model="edit.detailId.new_series_id"
+                        ng-options="series.id as series.name for series in edit.season.series | orderBy:'name'"
+                        ng-change="edit.onChange()"
+                        class="form-control"
+                        id="series"
+                        required
+                    >
+                        <option value="">-Please Select-</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label" for="personType">
+                    Person Type
+                </label>
+                <div class="col-xs-9">
+                    <select
+                        ng-model="edit.detailId.new_person_type_id"
+                        ng-options="personType.id as personType.name for personType in edit.season.personTypes | orderBy:'name'"
+                        ng-change="edit.onChange()"
+                        class="form-control"
+                        id="personType"
+                        required
+                    >
+                        <option value="">-Please Select-</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label" for="personType">
+                    Venue
+                </label>
+                <div class="col-xs-9">
+                    <select
+                            ng-model="edit.detailId.new_venue_id"
+                            ng-options="venue.id as venue.name for venue in edit.season.venues | orderBy:'name'"
+                            ng-change="edit.onChange()"
+                            class="form-control"
+                            id="venue"
+                            required
+                    >
+                        <option value="">-Please Select-</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+
+        <div ng-if="!edit.editMode">
+            <div class="row" ng-if="1 != edit.detailId.all_ga">
+                <div class="col-xs-3 control-label">Seat</div>
+                <div class="col-xs-9 info">{{edit.detailId.new_seat_no}}</div>
+            </div>
+            <div class="row" ng-if="1 == edit.detailId.any_ga">
+                <div class="col-xs-3 control-label">GA Section</div>
+                <div class="col-xs-9 info">{{edit.detailId.new_ga_section_pricing_name}}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 control-label">Package</div>
+                <div class="col-xs-9 info">{{edit.detailId.new_package_name}}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 control-label">Series</div>
+                <div class="col-xs-9 info">{{edit.detailId.new_series_name}}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 control-label">Person Type</div>
+                <div class="col-xs-9 info">{{edit.detailId.new_person_type}}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 control-label">Venue</div>
+                <div class="col-xs-9 info">{{edit.detailId.new_venue_name}} - {{edit.detailId.new_venue_id}}</div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <span class="section-header underline">Prior Season</span>
+        </div>
+        <div class="row" ng-if="1 != edit.detailId.all_ga">
+            <div class="col-xs-3 control-label">Seat</div>
+            <div class="col-xs-9 info">{{edit.detailId.prior_seat_no}}</div>
+        </div>
+        <div class="row" ng-if="1 == edit.detailId.any_ga">
+            <div class="col-xs-3 control-label">GA Section</div>
+            <div class="col-xs-9 info">{{edit.detailId.prior_ga_section_pricing_name}}</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3 control-label">Package</div>
+            <div class="col-xs-9 info">{{edit.detailId.prior_package_name}}</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3 control-label">Series</div>
+            <div class="col-xs-9 info">{{edit.detailId.prior_series_name}}</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3 control-label">Person Type</div>
+            <div class="col-xs-9 info">{{edit.detailId.prior_person_type}}</div>
+        </div>
+    <div class="row">
+        <div class="col-xs-3 control-label">Venue</div>
+        <div class="col-xs-9 info">{{edit.detailId.prior_venue_name}} - {{edit.detailId.prior_venue_id}}</div>
+    </div>
+</div>

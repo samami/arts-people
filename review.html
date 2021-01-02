@@ -1,0 +1,41 @@
+<div id="subscription-rollover-review" class="col-xs-12 form-horizontal">
+
+    <div class='row'>
+        <div class="col-xs-12">
+            <h1 class="pull-left">Review Reservations</h1>
+            <h2 class="pull-right conflict-header">{{$ctrl.rolloversConflictCount}} Conflicts</h2>
+            <h2 class="pull-right">{{$ctrl.rolloverDetails.length}} total subscriptions</h2>
+        </div>
+    </div>
+    <div class="rollover-subheader">
+        Conflicts appear in red below. Please click the "Edit" icon to update the subscription information or click the
+        "Remove" icon to remove the subscription from the rollover.
+    </div>
+    <div class="row">
+        <div ng-repeat="alert in $ctrl.alerts" class="col-xs-12">
+            <div class="alert {{ 'alert-' + alert.type }}" close="$ctrl.closeAlert($index)">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ alert.message }}
+            </div>
+        </div>
+    </div>
+    
+    <div ui-grid="$ctrl.gridOptions" class="ap-rollover-grid" ui-grid-exporter ui-grid-selection></div>
+
+    <div class="dropdown dropup col-md-12">
+        <button class="btn btn-default dropdown-toggle pull-right" type="button" data-toggle="dropdown">
+            Export <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu pull-right">
+            <li><a class="dropdown-item" ng-click="$ctrl.exportCsv()">All</a></li>
+            <li><a class="dropdown-item" ng-click="$ctrl.exportConflictsCsv()">Conflict Only</a></li>
+        </ul>
+    </div>
+    <div id="process-rollover" class="col-md-12">
+        <button type="button" class="btn btn-primary pull-right" ng-disabled="$ctrl.rolloversConflictCount > 0" ng-click="$ctrl.processRollovers()">
+            Process Rollover Subscriptions
+        </button>
+    </div>
+</div>

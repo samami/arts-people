@@ -1,0 +1,253 @@
+$active-color: #337AB7;
+$active-background: #ffffff;
+$enabled-color: #404040;
+$enabled-background: #ffffff;
+$disabled-color: #6E6E6E;
+$disabled-background: #ffffff;
+$error-color: #D0021B;
+
+.precheckheader {
+    font-weight: bold;
+    color: #404040;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+#map-header {
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 30px;
+    color: $enabled-color;
+}
+
+#subscription-rollover-precheck {
+    text-align: left;
+}
+
+.history-table {
+    tbody>tr>td {
+        vertical-align: middle;
+    }
+}
+
+.rollover-modal {
+    .patron-name {
+        color: #555555;
+        font-family: Helvetica;
+        font-size: 28px;
+        font-weight: bold;
+    }
+    .subtitle {
+        color: #555555;
+        font-family: Helvetica;
+        font-size: 18px;
+        font-weight: 300;
+        margin-bottom: 24px;
+    }
+    .section-header {
+        color: #555;
+        font-size: 23px;
+        margin-bottom: 10px;
+        margin-top: 35px;
+    }
+
+    .underline {
+        border-bottom: solid 1px #DBDBDB;
+        padding-bottom: 1px;
+    }
+    .control-label {
+        color: #5B5B5B;
+        font-family: Helvetica;
+        font-size: 14px;
+        font-weight: 300;
+    }
+    .info {
+        color: #404040;
+        font-family: Helvetica;
+        font-size: 13px;
+    }
+
+    .edit-detail-form {
+        .control-label {
+            text-align: left;
+        }
+    }
+    .conflict-bar {
+        background-color: #C20000;
+        color: #ffffff;
+        min-height: 50px;
+        margin-left: -25px;
+        margin-right: -25px;
+        margin-bottom: 4px;
+        opacity: 0.67;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    }
+
+    .conflict-bar-text {
+        margin-left: 25px;
+        margin-right: 25px;
+        font-size: 13px;
+        padding-bottom: 3px;
+    }
+
+    .has-error {
+        .form-control {
+            border-color: $error-color;
+        }
+        .help-block {
+            color: $error-color;
+            margin-bottom: 0;
+        }
+    }
+
+    .edit-header {
+        a {
+            text-decoration: none;
+            float: right;
+            color: #555555;
+        }
+
+        .apicon {
+            font-size: 24px;
+        }
+
+        .col-xs-3 {
+            padding-top: 5px;
+        }
+    }
+
+    .form-group {
+        .info {
+            padding-top: 9px;
+        }
+    }
+}
+#subscription-rollovers {
+
+    h1 {
+        margin: 0;
+    }
+
+    .rollover-actions {
+        margin-top: 26px;
+        margin-bottom: 26px;
+    }
+
+    .rollover-subheader {
+        margin-bottom: 32px;
+        margin-top: 32px;
+    }
+
+    //hover icons
+    .apicon-more {
+        font-size: 4px;
+        color: black;
+    }
+
+    .report-controls {
+        visibility: hidden;
+    }
+
+    .report-row:hover {
+
+        .report-more, .conflict-text {
+            display: none;
+        }
+
+        .report-controls {
+            visibility: visible;
+
+            > a {
+                color: black;
+                font-size: 150%;
+                margin: 17px 12px 0 0;
+                text-decoration: none;
+
+                img {
+                    vertical-align: top;
+                }
+            }
+        }
+    }
+
+    .conflict-header {
+        background-color: #D9272D;
+        color: white;
+        border-radius: 50px;
+        padding: 5px 18px;
+        margin-left: 20px;
+    }
+
+    //ui-grid
+
+    .conflict {
+        background-color: rgba(217, 39, 45, 0.12) !important;
+        font-weight: bold;
+    }
+
+    .conflictcell {
+        color: #D9272D;
+    }
+
+    .inactive {
+        color: gray;
+    }
+
+    .ap-rollover-grid {
+        width: 100%;
+        height: 500px;
+    }
+
+    .ui-grid {
+        border: none;
+    }
+
+    .ui-grid-cell {
+        border-width: 0 0 1px 0;
+        border-style: solid;
+        border-color: #E5E5E5;
+    }
+
+    .ui-grid-header {
+        //border-bottom-width: 2px;
+        border-bottom: 2px solid #979797;
+    }
+
+    .ui-grid-header-cell {
+        background-color: white;
+        border-width: 0 0 2px 0;
+    }
+
+    .ui-grid-cell-contents {
+        white-space: nowrap;
+        padding-top: 15px;
+        padding-bottom: 15px;
+
+        .pull-right {
+            padding-right: 20px;
+        }
+    }
+
+    .map-section {
+        padding-bottom: 15px;
+    }
+
+    .control-label {
+        color: $enabled-color;
+        text-align: left;
+        font-size: 16px;
+        line-height: 19px;
+        font-weight: normal;
+    }
+
+    h4 {
+        font-weight: bold;
+    }
+}
+
+.rollover-alert {
+    .modal-footer, .modal-header {
+        border-width: 0px;
+    }
+}

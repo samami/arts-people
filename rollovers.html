@@ -1,0 +1,12 @@
+<p class="alert alert-danger" ng-if="!$resolve.authorized">
+    This is not available for your user type.
+</p>
+
+<div id="subscription-rollovers" ng-if="$resolve.authorized">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Subscription Rollover</h1>
+        </div>
+    </div>
+    <div ui-view="step"></div>
+</div>

@@ -1,0 +1,58 @@
+<div
+    class="ui-grid-cell-contents report-row"
+    title="TOOLTIP"
+    ng-if="row.entity.status != 'inactive'"
+    >
+    <div ng-if="COL_FIELD.length > 0" class="pull-left conflict-text conflictcell">Conflict</div>
+    <div class="report-more pull-right">
+        <i class="apicon apicon-more"></i>
+    </div>
+    <div class="report-controls pull-right" >
+        <a
+            ng-click="grid.appScope.toggleRemove(row.entity)"
+            uib-tooltip="Remove"
+            tooltip-placement="top"
+            tooltip-append-to-body="true"
+        >
+            <i class="apicon apicon-delete"></i>
+        </a>
+        <a
+            ng-click="grid.appScope.editSubscriptionModalDetail(row.entity.details_id)"
+            uib-tooltip="Edit"
+            tooltip-placement="top"
+            tooltip-append-to-body="true"
+        >
+            <i class="apicon apicon-edit"></i>
+        </a>
+        <a
+            ng-click="grid.appScope.viewSubscriptionModalDetail(row.entity.details_id)"
+            uib-tooltip="View"
+            tooltip-placement="top"
+            tooltip-append-to-body="true"
+        >
+            <i class="apicon apicon-view"></i>
+        </a>
+    </div>
+</div>
+
+
+<div
+    class="ui-grid-cell-contents report-row"
+    title="TOOLTIP"
+    ng-if="row.entity.status == 'inactive'"
+    >
+    <div class="pull-left inactive">Removed</div>
+    <div class="report-more pull-right">
+        <i class="apicon apicon-more"></i>
+    </div>
+    <div class="report-controls pull-right" >
+        <a
+            ng-click="grid.appScope.toggleRemove(row.entity)"
+            uib-tooltip="Restore"
+            tooltip-placement="top"
+            tooltip-append-to-body="true"
+        >
+            <img src="/assets/img/ap-restore.svg" />
+        </a>
+    </div>
+</div>

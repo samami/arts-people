@@ -1,0 +1,63 @@
+<div id="subscription-rollover-history">
+    <div class="rollover-actions">
+        <button
+            type="button"
+            class="btn btn-primary btn-sm"
+            ng-disabled="$ctrl.hasIncompleteRollover"
+            ui-sref="rollovers.process.precheck"
+        >
+            <i class="glyphicon glyphicon-plus"></i> New Subscription Rollover
+        </button>
+    </div>
+    <table class="table history-table table-striped">
+        <thead>
+            <tr>
+                <th>Season</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Date Completed</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="!$ctrl.history || 0 == $ctrl.history.length">
+                <td colspan="5">
+                    No subscription rollover history.
+                </td>
+            </tr>
+            <tr ng-repeat="row in $ctrl.history | orderBy:'-date_completed'">
+                <td>{{row.season_name}}</td>
+                <td>{{row.total}}</td>
+                <td>{{row.statusMessage}}</td>
+                <td ng-show="row.date_completed !== null">{{row.date_completed}}</td>
+                <td ng-show="row.date_completed === null">&mdash;</td>
+                <td>
+                    <button
+                        ng-if="row.status === 0"
+                        type="button"
+                        class="btn btn-primary btn-sm"
+                        ui-sref="rollovers.process.review"
+                    >
+                        Continue
+                    </button>
+                    <button
+                        ng-if="row.status === 0"
+                        type="button"
+                        class="btn btn-danger btn-sm"
+                        ng-click="$ctrl.deleteMapping(row.mapping_id)"
+                    >
+                        Remove
+                    </button>
+                    <button
+                        ng-if="row.status > 0"
+                        type="button"
+                        class="btn btn-primary btn-sm"
+                        ui-sref="rollovers.confirmation({mappingId: row.mapping_id})"
+                    >
+                        Confirmation Details
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

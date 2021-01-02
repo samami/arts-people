@@ -1,0 +1,38 @@
+<div id="subscription-rollover-confirmation">
+    <h2>Rollover Confirmation</h2>
+    <div ng-if="$ctrl.confirmation.hasAccess">
+        <div class="row">
+            <div class="col-xs-3 control-label">Total Orders</div>
+            <div class="col-xs-9 info">{{$ctrl.confirmation.data.detailCount.total}}</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3 control-label">Completed Orders</div>
+            <div class="col-xs-9 info">{{$ctrl.confirmation.data.detailCount.complete}}</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3 control-label">Orders In Process</div>
+            <div class="col-xs-9 info">{{$ctrl.confirmation.data.detailCount.in_process}}</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3 control-label">Orders Not Started</div>
+            <div class="col-xs-9 info">{{$ctrl.confirmation.data.detailCount.not_started}}</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3 control-label">Errors</div>
+            <div class="col-xs-9 info">{{$ctrl.confirmation.data.detailCount.error}}</div>
+        </div>
+        <br />
+        <div ng-repeat="error in $ctrl.confirmation.data.errors" class="row">
+            <div class="col-xs-3 control-label">Error</div>
+            <div class="col-xs-9 info">
+                {{error.name}} ({{error.person_id}})<br />
+                {{error.message}}:
+                {{error.error_message}}
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="!$ctrl.confirmation.hasAccess">
+        Forbidden: Wrong Theatre, You don't have access to this data
+    </div>
+</div>

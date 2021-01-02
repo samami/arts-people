@@ -1,0 +1,41 @@
+<div id="subscription-rollover-precheck" class="col-md-6 form-horizontal">
+    <div class="precheckheader">
+        In order to continue, please review the items below and check the box if true.
+    </div>
+    <form>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="1" name="performances" ng-model="performances"/>
+                Next season's shows and performances have been built
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="1" name="season" ng-model="season"/>
+                    Pricing for next season has been built
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="1" name="venue" ng-model="venue"/>
+                    Next season uses the same venue(s) as last season
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="1" name="pkgcount" ng-model="pkgcount"/>
+                    Subscription packages have the same number of shows as last season
+            </label>
+        </div>
+        <div id="precheck-next" class="row col-md-offset-11 col-md-1">
+            <button
+                type="button"
+                class="btn btn-primary"
+                ui-sref="rollovers.process.map"
+                ng-disabled="!performances || !season || !venue || !pkgcount">
+                Next
+            </button>
+        </div>
+    </form>
+    
+</div>
